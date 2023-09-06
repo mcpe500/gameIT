@@ -1,9 +1,21 @@
-function main() {
+let frames = 0;
+let addFrames = () => { frames++; }
+function main(currentTime) {
     requestAnimationFrame(main);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawMap(map);
-    ctx.fillStyle = white;
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+
+    // Calculate elapsed time since the last frame
+    const currentTimeMS = performance.now();
+    const deltaTime = currentTimeMS - lastFrameTime;
+
+    // Only update the game if enough time has passed (to target 60 FPS)
+    if (deltaTime >= frameInterval) {
+        lastFrameTime = currentTimeMS;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawMap(map);
+        ctx.fillStyle = white;
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+        addFrames();
+    }
 }
 
 // Variables to track which keys are currently pressed
@@ -25,17 +37,17 @@ function movePlayer(event) {
     if (keysPressed['KeyD']) {
         player.x += player.speed;
     }
-    console.log(map)
+    // console.log(map)
 }
 
 // Mengatur event listener untuk menggerakkan pemain
 document.addEventListener("keydown", movePlayer);
 
 // Menambahkan event listener untuk menghentikan gerakan ketika tombol dilepas
-document.addEventListener("keyup", function(event) {
+document.addEventListener("keyup", function (event) {
     delete keysPressed[event.code];
 });
 
 // Memulai permainan
-fillMap(100,100);
+fillMap(100, 100);
 main();

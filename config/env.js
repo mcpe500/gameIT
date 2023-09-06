@@ -1,5 +1,9 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+const targetFPS = 240; // Target frame rate
+const frameInterval = 1000 / targetFPS; // Interval between frames in milliseconds
+let lastFrameTime = performance.now();
+
 let assets = './assets/';
 let grass_image = assets + "itland_ptype_grasstile.png";
 let grass_fps = 1;
@@ -14,10 +18,10 @@ const player = {
     y: canvas.height - 30,
     width: 16,
     height: 16,
-    speed: 5
+    speed: 16
 };
 
-let tile_size = 64;
+let tile_size = 32;
 
 // Images
 let grass_tile = new Image();
